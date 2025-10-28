@@ -1,0 +1,3 @@
+/* https://%{host}%{request_uri} 301!
+
+# Netlify _redirects forcing HTTPS. Keep this file at repo root when deploying to Netlify.

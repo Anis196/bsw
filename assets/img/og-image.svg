@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#7fd6a8"/>
+      <stop offset="1" stop-color="#5fcf8e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#07140d" />
+  <rect x="60" y="60" width="1080" height="510" rx="20" fill="url(#g)" opacity="0.12" />
+  <text x="100" y="220" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="72" fill="#e9fff3" font-weight="700">BSWL</text>
+  <text x="100" y="300" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="36" fill="#b7d4c6">Bhairavnath Sugar Works Ltd.</text>
+  <text x="100" y="380" font-family="Segoe UI, Roboto, Arial, sans-serif" font-size="22" fill="#d1ffea">Sugar • Co-generation • Ethanol</text>
+</svg>
