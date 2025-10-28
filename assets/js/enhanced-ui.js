@@ -176,51 +176,55 @@ function setLanguage(lang) {
 }
 
 function translateAll(lang) {
-    // Translate elements with explicit keys first
-    document.querySelectorAll('[data-i18n]').forEach(el => {
+    // Skip brand logo elements completely
+    const skipSelectors = ['.logo-sweet', '.logo-sub', '.logo'];
+    const isSkippedElement = (el) => skipSelectors.some(sel => el.matches(sel) || el.closest(sel));
+    
+    // Cache elements with data-i18n for reuse
+    const i18nElements = Array.from(document.querySelectorAll('[data-i18n]')).filter(el => !isSkippedElement(el));
+    const i18nAttrElements = Array.from(document.querySelectorAll('[data-i18n-attr]')).filter(el => !isSkippedElement(el));
+
+    // Batch translations to avoid layout thrashing
+    const updates = new Map();
+    const attrUpdates = new Map();
+
+    // Queue up data-i18n translations
+    i18nElements.forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translated = (translations[lang] && translations[lang][key]) || translations.en[key];
         if (translated != null) {
-            // store original for reversal
             if (!window.__i18nOriginals.has(el)) window.__i18nOriginals.set(el, el.textContent);
-            el.textContent = translated;
+            updates.set(el, translated);
         }
     });
 
-    // Translate text nodes across the document (best-effort): look up full-string matches
+    // Queue up text node translations
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
         acceptNode(node) {
             if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-            // ignore script/style and noscript
             const parent = node.parentElement;
-            if (!parent) return NodeFilter.FILTER_REJECT;
+            if (!parent || isSkippedElement(parent)) return NodeFilter.FILTER_REJECT;
             const tag = parent.tagName.toLowerCase();
             if (['script','style','noscript','code','pre'].includes(tag)) return NodeFilter.FILTER_REJECT;
             return NodeFilter.FILTER_ACCEPT;
         }
     });
 
-    const toReplace = [];
     while (walker.nextNode()) {
         const node = walker.currentNode;
         const txt = node.nodeValue.trim();
         const key = txt;
         const translated = (translations[lang] && translations[lang][key]) || translations.en[key];
         if (translated != null && translated !== txt) {
-            toReplace.push({ node, translated });
+            if (!window.__i18nOriginals.has(node)) window.__i18nOriginals.set(node, node.nodeValue);
+            updates.set(node, node.nodeValue.replace(node.nodeValue.trim(), translated));
         }
     }
 
-    toReplace.forEach(({node, translated}) => {
-        // store original
-        if (!window.__i18nOriginals.has(node)) window.__i18nOriginals.set(node, node.nodeValue);
-        node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), translated);
-    });
-
-    // Attributes (placeholder, alt, title)
-    document.querySelectorAll('[data-i18n-attr]').forEach(el => {
-        // expected format: data-i18n-attr="placeholder:contact_placeholder;title:whatever"
+    // Queue up attribute translations
+    i18nAttrElements.forEach(el => {
         const map = el.getAttribute('data-i18n-attr');
+        const attrs = {};
         map.split(';').forEach(pair => {
             const [attr, key] = pair.split(':').map(s => s && s.trim());
             if (!attr || !key) return;
@@ -229,8 +233,28 @@ function translateAll(lang) {
                 if (!window.__i18nAttrOriginals.has(el)) window.__i18nAttrOriginals.set(el, {});
                 const store = window.__i18nAttrOriginals.get(el);
                 if (!(attr in store)) store[attr] = el.getAttribute(attr);
-                el.setAttribute(attr, translated);
+                attrs[attr] = translated;
             }
+        });
+        if (Object.keys(attrs).length) {
+            attrUpdates.set(el, attrs);
+        }
+    });
+
+    // Apply all updates in a single batch
+    requestAnimationFrame(() => {
+        updates.forEach((text, node) => {
+            if (node instanceof Element) {
+                node.textContent = text;
+            } else {
+                node.nodeValue = text;
+            }
+        });
+        
+        attrUpdates.forEach((attrs, el) => {
+            Object.entries(attrs).forEach(([attr, value]) => {
+                el.setAttribute(attr, value);
+            });
         });
     });
 }
