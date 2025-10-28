@@ -1,0 +1,154 @@
+/* Enhanced features styles */
+
+/* Lazy loading images */
+img[data-src] {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    filter: blur(5px);
+}
+
+img.loaded {
+    opacity: 1;
+    filter: blur(0);
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
+}
+
+.lightbox.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.lightbox button {
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.lightbox button:hover {
+    background: rgba(0,0,0,0.8);
+}
+
+.lightbox-close {
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+}
+
+.lightbox-prev,
+.lightbox-next {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+}
+
+.lightbox-prev { left: 1rem; }
+.lightbox-next { right: 1rem; }
+
+/* Interactive Timeline */
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--brand);
+    transform: translateX(-50%);
+}
+
+.mile {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.mile.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mile-content {
+    background: var(--card);
+    padding: 1rem;
+    border-radius: 0.8rem;
+    border: 1px solid #123;
+    width: calc(50% - 2rem);
+    margin-left: auto;
+    position: relative;
+}
+
+.mile:nth-child(even) .mile-content {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.mile-point {
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    background: var(--brand);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.mile h3 {
+    color: var(--brand);
+    margin: 0 0 0.5rem;
+}
+
+.mile h4 {
+    margin: 0 0 0.5rem;
+    color: var(--text);
+}
+
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 1rem;
+    }
+    
+    .mile-content {
+        width: calc(100% - 3rem);
+        margin-left: 2rem !important;
+    }
+    
+    .mile-point {
+        left: 1rem;
+    }
+}
