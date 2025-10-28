@@ -93,7 +93,6 @@ img.loaded {
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.6s ease-out;
-    margin: 2rem 0;
     position: relative;
 }
 
@@ -102,53 +101,8 @@ img.loaded {
     transform: translateY(0);
 }
 
-.mile-content {
-    background: var(--card);
-    padding: 1rem;
-    border-radius: 0.8rem;
-    border: 1px solid #123;
-    width: calc(50% - 2rem);
-    margin-left: auto;
-    position: relative;
-}
-
-.mile:nth-child(even) .mile-content {
-    margin-left: 0;
-    margin-right: auto;
-}
-
-.mile-point {
-    position: absolute;
-    width: 1rem;
-    height: 1rem;
-    background: var(--brand);
-    border-radius: 50%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.mile h3 {
-    color: var(--brand);
-    margin: 0 0 0.5rem;
-}
-
-.mile h4 {
-    margin: 0 0 0.5rem;
-    color: var(--text);
-}
-
 @media (max-width: 768px) {
     .timeline::before {
-        left: 1rem;
-    }
-    
-    .mile-content {
-        width: calc(100% - 3rem);
-        margin-left: 2rem !important;
-    }
-    
-    .mile-point {
         left: 1rem;
     }
 }

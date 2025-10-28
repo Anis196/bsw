@@ -17,7 +17,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Lazy loading with blur effect
 document.addEventListener('DOMContentLoaded', () => {
     const lazyImages = document.querySelectorAll('img[data-src]');
-    
+    let loadedCount = 0;
+
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -25,18 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 img.src = img.dataset.src;
                 img.classList.add('loaded');
                 observer.unobserve(img);
+
+                loadedCount++;
+                if (loadedCount === lazyImages.length && lightboxInstance) {
+                    lightboxInstance.bindImages();
+                }
             }
         });
     });
 
     lazyImages.forEach(img => imageObserver.observe(img));
+
+    if (lazyImages.length === 0 && lightboxInstance) {
+        lightboxInstance.bindImages();
+    }
 });
 
 // Gallery lightbox
 class Lightbox {
     constructor() {
         this.createLightbox();
-        this.bindEvents();
+        this.images = [];
     }
 
     createLightbox() {
@@ -53,25 +63,31 @@ class Lightbox {
         document.body.appendChild(lightbox);
         this.lightbox = lightbox;
         this.currentIndex = 0;
-        this.images = [];
+        this.setupEventListeners();
     }
 
-    bindEvents() {
-        document.querySelectorAll('.gallery-grid img').forEach((img, index) => {
-            img.addEventListener('click', () => this.open(index));
-            this.images.push(img.src);
-        });
-
+    setupEventListeners() {
         this.lightbox.querySelector('.lightbox-close').addEventListener('click', () => this.close());
         this.lightbox.querySelector('.lightbox-prev').addEventListener('click', () => this.prev());
         this.lightbox.querySelector('.lightbox-next').addEventListener('click', () => this.next());
-        
+
         document.addEventListener('keydown', (e) => {
             if (this.lightbox.classList.contains('active')) {
                 if (e.key === 'Escape') this.close();
                 if (e.key === 'ArrowLeft') this.prev();
                 if (e.key === 'ArrowRight') this.next();
             }
+        });
+    }
+
+    bindImages() {
+        const galleryImages = document.querySelectorAll('.gallery-grid img');
+        this.images = [];
+
+        galleryImages.forEach((img, index) => {
+            const src = img.dataset.src || img.src;
+            this.images.push(src);
+            img.addEventListener('click', () => this.open(index));
         });
     }
 
@@ -103,42 +119,15 @@ class Lightbox {
     }
 }
 
-// Initialize lightbox for gallery
+let lightboxInstance = null;
 if (document.querySelector('.gallery-grid')) {
-    new Lightbox();
+    lightboxInstance = new Lightbox();
 }
 
-// Interactive timeline
-class Timeline {
-    constructor(container) {
-        this.container = container;
-        this.createTimeline();
-    }
-
-    createTimeline() {
-        const milestones = [
-            { year: 2000, title: 'Company Incorporation', description: 'BSWL was incorporated.' },
-            { year: 2008, title: 'Production Commenced', description: 'Started operations at Sonari with 14.5 MW power plant.' },
-            { year: 2011, title: 'Vihal Expansion', description: 'Added 12 MW power generation at Vihal unit.' },
-            { year: 2013, title: 'Lavangi Power Plant', description: 'Established 14.5 MW plant at Lavangi.' },
-            { year: 2014, title: 'Mechanized Harvesting', description: 'Introduced mechanized harvesters for efficiency.' },
-            { year: 2025, title: 'Current Operations', description: '5 units with 12,250 TCD capacity and ~53.5 MW power.' }
-        ];
-
-        const timelineHTML = milestones.map(milestone => `
-            <div class="mile" data-year="${milestone.year}">
-                <div class="mile-content">
-                    <h3>${milestone.year}</h3>
-                    <h4>${milestone.title}</h4>
-                    <p>${milestone.description}</p>
-                </div>
-                <div class="mile-point"></div>
-            </div>
-        `).join('');
-
-        this.container.innerHTML = timelineHTML;
-        
-        // Add animation on scroll
+// Animate timeline items on scroll
+document.addEventListener('DOMContentLoaded', () => {
+    const timelineContainer = document.getElementById('timeline');
+    if (timelineContainer) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -147,14 +136,8 @@ class Timeline {
             });
         }, { threshold: 0.2 });
 
-        this.container.querySelectorAll('.mile').forEach(mile => {
+        timelineContainer.querySelectorAll('.mile').forEach(mile => {
             observer.observe(mile);
         });
     }
-}
-
-// Initialize timeline if container exists
-const timelineContainer = document.getElementById('timeline');
-if (timelineContainer) {
-    new Timeline(timelineContainer);
-}
+});
