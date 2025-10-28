@@ -1,0 +1,176 @@
+/* Theme and UI enhancements */
+
+/* Theme variables */
+:root[data-theme="light"] {
+    --bg: #ffffff;
+    --card: #f0f7f3;
+    --text: #0b1c14;
+    --muted: #4a6357;
+    --brand: #2f9e6d;
+    --brand-strong: #268a5d;
+    --accent: #ebfff5;
+    --shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+
+:root[data-theme="dark"] {
+    --bg: #0b1c14;
+    --card: #10231a;
+    --text: #e9fff3;
+    --muted: #b7d4c6;
+    --brand: #7fd6a8;
+    --brand-strong: #5fcf8e;
+    --accent: #d1ffea;
+    --shadow: 0 8px 28px rgba(0,0,0,0.25);
+}
+
+/* theme toggle removed (styles kept elsewhere if needed) */
+
+/* Back to top button */
+.back-to-top {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: var(--brand);
+    color: var(--bg);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    z-index: 900;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background-color 0.3s;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: var(--brand-strong);
+}
+
+/* Language selector */
+.lang-select {
+    position: fixed;
+    bottom: 10.5rem;
+    right: 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--brand);
+    color: var(--text);
+    padding: 0.5rem;
+    border-radius: 2rem;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.lang-btn {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.lang-btn.active {
+    background: var(--brand);
+    color: var(--bg);
+}
+
+/* Smooth theme transition */
+body {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Contact form styles */
+.contact-form {
+    background: var(--card);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--brand);
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--muted);
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.form-textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+.error-message {
+    color: #ff4646;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+}
+
+/* Form validation styles */
+.form-input:invalid,
+.form-textarea:invalid {
+    border-color: #ff4646;
+}
+
+.form-input:valid,
+.form-textarea:valid {
+    border-color: #46c146;
+}
+
+/* Force white/contrasting text for elements on dark backgrounds when required */
+.ui-inverse {
+    color: #ffffff !important;
+}
+
+/* Ensure links and strong/heading inside inverse containers also contrast */
+.ui-inverse a,
+.ui-inverse strong,
+.ui-inverse h1,
+.ui-inverse h2,
+.ui-inverse h3,
+.ui-inverse h4,
+.ui-inverse h5,
+.ui-inverse h6 {
+    color: #ffffff !important;
+}
+
+/* smooth transitions for color changes */
+* {
+    transition: color 0.18s ease, background-color 0.18s ease;
+}

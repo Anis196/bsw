@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Products · Bhairavnath Sugar Works Ltd.</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/enhanced-ui.css" />
   <link rel="icon" href="assets/img/favicon.png" />
   <meta name="description" content="Products & processes — sugar grades, co-generation, distillery and allied products from Bhairavnath Sugar Works Ltd." />
   <meta name="theme-color" content="#7fd6a8" />
@@ -21,7 +22,7 @@
     <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" id="navToggle">☰</button>
     <nav class="nav" id="siteNav" aria-label="Main">
       <ul>
-        <li><a href="index.html">Home</a></li>
+  <li><a href="index.html" data-i18n="nav-home">Home</a></li>
         <li class="has-sub"><a href="about.html">About</a>
           <ul class="sub">
             <li><a href="about.html#vision">Vision & Mission</a></li>
@@ -31,8 +32,8 @@
             <li><a href="about.html#board">Board of Directors</a></li>
           </ul>
         </li>
-        <li><a href="products.html">Products</a></li>
-        <li class="has-sub"><a href="investor.html">Investor Relations</a>
+  <li><a href="products.html" data-i18n="nav-products">Products</a></li>
+  <li class="has-sub"><a href="investor.html" data-i18n="nav-investor">Investor Relations</a>
           <ul class="sub">
             <li><a href="investor.html#reports">Annual Report & Return</a></li>
             <li><a href="investor.html#code">Code of Conduct</a></li>
@@ -41,8 +42,8 @@
             <li><a href="investor.html#harvesting">Sugar Cane Harvesting</a></li>
           </ul>
         </li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="gallery.html" data-i18n="nav-gallery">Gallery</a></li>
+        <li><a href="contact.html" data-i18n="nav-contact">Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -121,5 +122,14 @@
   </div>
 </footer>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/enhanced-ui.js"></script>
+
+<!-- UI controls -->
+<a class="back-to-top" href="#" aria-label="Back to top">↑</a>
+<div class="lang-select" aria-label="Language selector">
+  <button class="lang-btn" data-lang="en">EN</button>
+  <button class="lang-btn" data-lang="hi">हिंदी</button>
+  <button class="lang-btn" data-lang="mr">मराठी</button>
+</div>
 </body>
 </html>

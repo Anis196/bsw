@@ -49,7 +49,42 @@ a:hover{text-decoration:underline}
 .hero-cta .btn{margin-right:.5rem;margin-bottom:.5rem;display:inline-block}
 
 .hero-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
-@media (min-width:720px){ .hero-stats{grid-template-columns:repeat(4, minmax(0,1fr))} }
+@media (min-width:720px) {.hero-stats {
+  display: flex;
+  justify-content: center;   /* center horizontally */
+  align-items: stretch;      /* all boxes same height */
+  gap: 1rem;
+  flex-wrap: nowrap;         /* keep one line */
+  text-align: center;
+}
+
+.hero-stats > div {
+  background: rgba(127,214,168,.32);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;    /* stack number over label */
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;       /* prevent text wrapping */
+  word-break: normal;
+  box-sizing: border-box;
+  min-height: 100px;         /* ensures equal height (adjust as needed) */
+}
+
+.hero-stats h3 {
+  margin: 0;
+  font-size: 1.8rem;         /* number size */
+  font-weight: 700;
+}
+
+.hero-stats p {
+  margin: 0.25rem 0 0 0;
+  font-size: 1rem;           /* label size */
+}
+
+}
+
 .stat{background:var(--card);padding:clamp(.8rem, 2vw, 1rem);border:1px solid #153;border-radius:1rem;text-align:center}
 .stat .num{font-size:clamp(1.2rem, 2vw + .6rem, 1.8rem);font-weight:800;display:block}
 .stat .label{color:var(--muted)}
